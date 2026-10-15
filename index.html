@@ -267,7 +267,7 @@
             <div class="bg-slate-950/90 border border-slate-800/80 rounded-2xl p-4 space-y-2">
                 <div class="flex justify-between items-center text-xs font-mono">
                     <span class="text-slate-400">Total Views:</span>
-                    <span id="modal-views" class="text-amber-400 font-bold"><i class="fa-solid fa-eye mr-1"></i>56</span>
+                    <span id="modal-views" class="text-amber-400 font-bold"><i class="fa-solid fa-eye mr-1"></i>110</span>
                 </div>
                 <div class="flex justify-between items-center text-xs font-mono">
                     <span class="text-slate-400">Genre:</span>
@@ -300,7 +300,7 @@
 
     <!-- JAVASCRIPT APP LOGIC -->
     <script>
-        // EXACT INITIAL DATA WITH PERSISTENCE (localStorage key: comixhub_views_clean)
+        // EXACT INITIAL DATA WITH PERSISTENCE (localStorage key: comixhub_views_clean)[cite: 1]
         const INITIAL_ISSUES = [
             {
                 id: 'apex-issue-1',
@@ -310,7 +310,7 @@
                 genre: 'Action / Sci-Fi',
                 link: 'https://globalcomix.com/c/apex-',
                 description: 'Apex is on the run trying to save the city from Vance. High-octane debut issue introducing Apex and his kinetic harness abilities.',
-                views: 56,
+                views: 110,
                 icon: 'fa-bolt-lightning',
                 gradient: 'from-indigo-950 via-slate-900 to-purple-950',
                 glowColor: '#6366f1'
@@ -323,7 +323,7 @@
                 genre: 'Action / Sci-Fi',
                 link: 'https://globalcomix.com/c/apex-',
                 description: 'Vance deploys cybernetic syndicate assassins across the lower sector. Apex must defend the energy grid to prevent a citywide meltdown.',
-                views: 36,
+                views: 81,
                 icon: 'fa-shield-halved',
                 gradient: 'from-purple-950 via-slate-900 to-cyan-950',
                 glowColor: '#a855f7'
@@ -336,7 +336,7 @@
                 genre: 'Action / Sci-Fi',
                 link: 'https://globalcomix.com/c/apex-',
                 description: 'The direct confrontation at the city hub. Apex faces Vance in a high-stakes finale to save the metropolis from ultimate destruction.',
-                views: 14,
+                views: 60,
                 icon: 'fa-explosion',
                 gradient: 'from-cyan-950 via-slate-900 to-indigo-950',
                 glowColor: '#00f3ff'
@@ -464,7 +464,7 @@
         }
 
         // -------------------------------------------------------------
-        // LOCALSTORAGE PERSISTENCE (comixhub_views_clean)
+        // LOCALSTORAGE PERSISTENCE (comixhub_views_clean)[cite: 1]
         // -------------------------------------------------------------
         function loadIssuesData() {
             const stored = localStorage.getItem('comixhub_views_clean');
