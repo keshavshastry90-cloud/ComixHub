@@ -300,7 +300,7 @@
 
     <!-- JAVASCRIPT APP LOGIC -->
     <script>
-        // EXACT INITIAL DATA WITH PERSISTENCE (localStorage key: comixhub_views_clean)[cite: 1]
+        // EXACT INITIAL DATA WITH PERSISTENCE (localStorage key: comixhub_views_clean_v2)
         const INITIAL_ISSUES = [
             {
                 id: 'apex-issue-1',
@@ -464,25 +464,25 @@
         }
 
         // -------------------------------------------------------------
-        // LOCALSTORAGE PERSISTENCE (comixhub_views_clean)[cite: 1]
+        // LOCALSTORAGE PERSISTENCE (comixhub_views_clean_v2)
         // -------------------------------------------------------------
         function loadIssuesData() {
-            const stored = localStorage.getItem('comixhub_views_clean');
+            const stored = localStorage.getItem('comixhub_views_clean_v2');
             if (stored) {
                 try {
                     const parsed = JSON.parse(stored);
-                    issuesData = parsed.length === 3 ? parsed : [...INITIAL_ISSUES];
+                    issuesData = parsed.length === 3 ? parsed : JSON.parse(JSON.stringify(INITIAL_ISSUES));
                 } catch (e) {
-                    issuesData = [...INITIAL_ISSUES];
+                    issuesData = JSON.parse(JSON.stringify(INITIAL_ISSUES));
                 }
             } else {
-                issuesData = [...INITIAL_ISSUES];
+                issuesData = JSON.parse(JSON.stringify(INITIAL_ISSUES));
                 saveToLocalStorage();
             }
         }
 
         function saveToLocalStorage() {
-            localStorage.setItem('comixhub_views_clean', JSON.stringify(issuesData));
+            localStorage.setItem('comixhub_views_clean_v2', JSON.stringify(issuesData));
         }
 
         // -------------------------------------------------------------
@@ -606,11 +606,11 @@
             const issue = issuesData.find(i => i.id === issueId);
             if (!issue) return;
 
-            // Increment view count
+            // Increment view count dynamically in-memory and persist
             issue.views += 1;
             saveToLocalStorage();
 
-            // Visual badge animation update
+            // Direct live DOM update without requiring a full re-render
             const countEl = document.getElementById(`view-count-${issue.id}`);
             if (countEl) {
                 countEl.textContent = issue.views;
@@ -622,8 +622,15 @@
             updateTotalHeroViews();
             showToast(`Opening ${issue.title}! Views updated to ${issue.views}.`);
 
+            // If "Most Viewed" sorting mode is currently enabled, re-render catalog so cards reorder dynamically
+            if (currentSort === 'views') {
+                renderCatalog();
+            }
+
             // Silent Redirection Target
-            window.open(issue.link, '_blank');
+            setTimeout(() => {
+                window.open(issue.link, '_blank');
+            }, 300);
         }
 
         function updateTotalHeroViews() {
@@ -682,8 +689,7 @@
             const toast = document.createElement('div');
             toast.className = "pointer-events-auto bg-slate-900/95 border border-cyan-500 text-white px-4 py-3 rounded-2xl shadow-2xl text-xs font-semibold flex items-center space-x-2 animate-fade-in backdrop-blur-md";
             toast.innerHTML = `
-                <i class="fa-solid fa-circle-check text-cyan-400 text-sm"></i>
-                <span>${message}</span>
+                <i class="fa-solid fa-circle-check text-cyan-400 text-sm"><span>${message}</span></i>
             `;
             container.appendChild(toast);
 
