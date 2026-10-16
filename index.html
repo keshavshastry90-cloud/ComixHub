@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ComixHub - Interactive Series Portal</title>
+    <title>ComixHub - Multi-Series Portal</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -143,7 +143,7 @@
         <header class="sticky top-0 z-40 bg-[#030712]/85 backdrop-blur-md border-b border-slate-800/80 px-4 lg:px-8 py-4 shadow-xl">
             <div class="max-w-7xl mx-auto flex items-center justify-between">
                 
-                <!-- Brand Logo ONLY -->
+                <!-- Brand Logo -->
                 <div class="flex items-center space-x-3 cursor-pointer select-none" onclick="setSortMode('number')">
                     <div class="bg-gradient-to-tr from-indigo-600 via-purple-600 to-cyan-400 text-white p-2.5 rounded-2xl shadow-lg shadow-indigo-900/50 flex items-center justify-center transform hover:rotate-12 transition duration-300">
                         <i class="fa-solid fa-cube text-xl"></i>
@@ -168,7 +168,7 @@
         <!-- MAIN CONTAINER -->
         <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 lg:p-8 space-y-8">
 
-            <!-- TOTAL VIEWS STATS BANNER (TOP AREA) -->
+            <!-- TOTAL VIEWS STATS BANNER -->
             <section class="relative rounded-3xl border border-slate-800/80 bg-gradient-to-r from-slate-950/90 via-slate-900/90 to-slate-950/90 p-6 shadow-2xl backdrop-blur-md overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div class="absolute -top-32 -right-32 w-80 h-80 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="absolute -bottom-32 -left-32 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -192,7 +192,7 @@
                         <i class="fa-solid fa-eye text-xl"></i>
                     </div>
                     <div class="text-left">
-                        <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total Views Across Issues</p>
+                        <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total Views Across Releases</p>
                         <p id="hero-total-views" class="text-2xl font-black text-amber-400 font-mono tracking-tight">-- Views</p>
                     </div>
                 </div>
@@ -203,16 +203,16 @@
                 <div>
                     <h3 class="text-xl font-black text-white flex items-center gap-2 uppercase tracking-wide">
                         <i class="fa-solid fa-layer-group text-cyan-400"></i>
-                        <span>Available Issues</span>
+                        <span>Featured Series</span>
                     </h3>
-                    <p class="text-xs font-mono text-slate-400">Select an issue to begin reading</p>
+                    <p class="text-xs font-mono text-slate-400">Select any series to view synopsis and read</p>
                 </div>
 
                 <!-- Sort Control Toggle -->
                 <div class="flex items-center bg-slate-900/90 border border-slate-800 p-1 rounded-xl text-xs font-semibold shadow-inner">
-                    <span class="text-slate-400 px-3 hidden sm:inline">Sort Issues:</span>
+                    <span class="text-slate-400 px-3 hidden sm:inline">Sort Order:</span>
                     <button id="sort-number" onclick="setSortMode('number')" class="px-3.5 py-1.5 rounded-lg transition text-slate-200 bg-slate-800 shadow">
-                        Issue Number
+                        Series Number
                     </button>
                     <button id="sort-views" onclick="setSortMode('views')" class="px-3.5 py-1.5 rounded-lg transition text-slate-400 hover:text-white">
                         Most Viewed
@@ -220,10 +220,10 @@
                 </div>
             </section>
 
-            <!-- ISSUES GRID WITH 3D CARDS (DIRECT START WITH ISSUE 1, 2, 3) -->
+            <!-- ALL 3 SERIES IN ONE GRID -->
             <section>
                 <div id="comic-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Dynamic rendering of issue cards -->
+                    <!-- Dynamic rendering of the 3 series cards -->
                 </div>
             </section>
 
@@ -243,7 +243,7 @@
 
     </div>
 
-    <!-- ISSUE DETAILS MODAL POPUP -->
+    <!-- DETAILS MODAL POPUP -->
     <div id="detail-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden transition-opacity duration-300">
         <div class="bg-[#0b0f19] border border-slate-800 w-full max-w-lg rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative animate-fade-in text-left">
             
@@ -257,9 +257,9 @@
                 </div>
                 <div class="space-y-1">
                     <span id="modal-badge" class="px-2.5 py-0.5 bg-indigo-950 border border-indigo-800 text-cyan-400 text-[10px] font-black uppercase tracking-wider rounded-md">
-                        ISSUE #1
+                        SERIES #1
                     </span>
-                    <h3 id="modal-title" class="text-2xl font-black text-white uppercase tracking-wide">Issue 1</h3>
+                    <h3 id="modal-title" class="text-2xl font-black text-white uppercase tracking-wide">The Apex</h3>
                     <p id="modal-author" class="text-xs text-slate-400 font-semibold">By Keshav Shastry</p>
                 </div>
             </div>
@@ -267,7 +267,7 @@
             <div class="bg-slate-950/90 border border-slate-800/80 rounded-2xl p-4 space-y-2">
                 <div class="flex justify-between items-center text-xs font-mono">
                     <span class="text-slate-400">Total Views:</span>
-                    <span id="modal-views" class="text-amber-400 font-bold"><i class="fa-solid fa-eye mr-1"></i>110</span>
+                    <span id="modal-views" class="text-amber-400 font-bold"><i class="fa-solid fa-eye mr-1"></i>0</span>
                 </div>
                 <div class="flex justify-between items-center text-xs font-mono">
                     <span class="text-slate-400">Genre:</span>
@@ -282,13 +282,13 @@
             <div class="space-y-2">
                 <h4 class="text-xs font-extrabold text-slate-300 uppercase tracking-wider">Plot Synopsis</h4>
                 <p id="modal-description" class="text-xs text-slate-400 leading-relaxed">
-                    Issue details plot text...
+                    Synopsis text...
                 </p>
             </div>
 
             <div class="pt-2 flex items-center space-x-3">
                 <button id="modal-read-btn" onclick="" class="flex-1 bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-black text-xs py-3.5 rounded-xl transition shadow-lg shadow-indigo-950/50 flex items-center justify-center space-x-2 uppercase tracking-wider">
-                    <span>Read Issue</span>
+                    <span>Read Series</span>
                     <i class="fa-solid fa-book-open text-[11px]"></i>
                 </button>
             </div>
@@ -300,44 +300,46 @@
 
     <!-- JAVASCRIPT APP LOGIC -->
     <script>
-        // EXACT INITIAL DATA WITH PERSISTENCE (localStorage key: comixhub_views_clean_v2)
-        const INITIAL_ISSUES = [
+        // STRICT RULE: Only "The Apex" increments views. Views for Poison Girl and Ritugn remain paused.
+        const ALLOWED_VIEW_TITLE = "The Apex";
+
+        const INITIAL_SERIES = [
             {
-                id: 'apex-issue-1',
-                title: 'Issue 1',
-                issueNumber: 1,
+                id: 'series-apex',
+                title: 'The Apex',
+                seriesNumber: 1,
                 author: 'Keshav Shastry',
                 genre: 'Action / Sci-Fi',
                 link: 'https://globalcomix.com/c/apex-',
-                description: 'Apex is on the run trying to save the city from Vance. High-octane debut issue introducing Apex and his kinetic harness abilities.',
-                views: 110,
+                description: 'Apex is on the run trying to save the city from Vance. High-octane kinetic harness action battling against cybernetic syndicate operatives across the sectors.',
+                views: 251,
                 icon: 'fa-bolt-lightning',
                 gradient: 'from-indigo-950 via-slate-900 to-purple-950',
                 glowColor: '#6366f1'
             },
             {
-                id: 'apex-issue-2',
-                title: 'Issue 2',
-                issueNumber: 2,
+                id: 'series-poison-girl',
+                title: 'Poison Girl: Her Touch Is Lethal',
+                seriesNumber: 2,
                 author: 'Keshav Shastry',
-                genre: 'Action / Sci-Fi',
-                link: 'https://globalcomix.com/c/apex-',
-                description: 'Vance deploys cybernetic syndicate assassins across the lower sector. Apex must defend the energy grid to prevent a citywide meltdown.',
-                views: 81,
-                icon: 'fa-shield-halved',
-                gradient: 'from-purple-950 via-slate-900 to-cyan-950',
-                glowColor: '#a855f7'
+                genre: 'Dark Thriller / Sci-Fi',
+                link: 'https://globalcomix.com/c/poison-girl-her-touch-is-lethal-',
+                description: 'Cursed with a biologically fatal touch, a renegade heroine navigates betrayal, high-stakes corporate underworlds, and relentless bounty squads.',
+                views: 0,
+                icon: 'fa-skull-crossbones',
+                gradient: 'from-pink-950 via-slate-900 to-purple-950',
+                glowColor: '#ec4899'
             },
             {
-                id: 'apex-issue-3',
-                title: 'Issue 3',
-                issueNumber: 3,
+                id: 'series-ritugn',
+                title: 'Ritugn: The Cosmic Light',
+                seriesNumber: 3,
                 author: 'Keshav Shastry',
-                genre: 'Action / Sci-Fi',
-                link: 'https://globalcomix.com/c/apex-',
-                description: 'The direct confrontation at the city hub. Apex faces Vance in a high-stakes finale to save the metropolis from ultimate destruction.',
-                views: 60,
-                icon: 'fa-explosion',
+                genre: 'Cosmic / Space Fantasy',
+                link: 'https://globalcomix.com/c/ritugn-the-cosmic-light',
+                description: 'An expansive cosmic journey unlocking the celestial power of cosmic light amidst intergalactic warfare and forgotten ancient forces.',
+                views: 0,
+                icon: 'fa-sun',
                 gradient: 'from-cyan-950 via-slate-900 to-indigo-950',
                 glowColor: '#00f3ff'
             }
@@ -349,7 +351,7 @@
         // INITIALIZATION
         window.addEventListener('DOMContentLoaded', () => {
             initThreeJSBackground();
-            loadIssuesData();
+            loadSeriesData();
             renderCatalog();
             updateTotalHeroViews();
             setupKeyboardNav();
@@ -371,7 +373,6 @@
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-                // Floating Geometric Wireframe Nodes
                 const particleGroup = new THREE.Group();
                 const count = 90;
                 const geometry = new THREE.IcosahedronGeometry(0.7, 0);
@@ -409,7 +410,6 @@
                 }
                 scene.add(particleGroup);
 
-                // Animated Wireframe Grid Plane
                 const gridGeo = new THREE.PlaneGeometry(130, 130, 22, 22);
                 const gridMat = new THREE.MeshBasicMaterial({ color: 0x1e293b, wireframe: true, transparent: true, opacity: 0.2 });
                 const gridMesh = new THREE.Mesh(gridGeo, gridMat);
@@ -417,7 +417,6 @@
                 gridMesh.position.y = -22;
                 scene.add(gridMesh);
 
-                // Cursor Mouse Interactive Movement
                 let mouseX = 0;
                 let mouseY = 0;
                 window.addEventListener('mousemove', (e) => {
@@ -459,30 +458,30 @@
                 }
                 animate();
             } catch (err) {
-                console.warn('WebGL setup failed, active fallback active:', err);
+                console.warn('WebGL setup fallback active:', err);
             }
         }
 
         // -------------------------------------------------------------
-        // LOCALSTORAGE PERSISTENCE (comixhub_views_clean_v2)
+        // LOCALSTORAGE PERSISTENCE (key: comixhub_series_named_v1)
         // -------------------------------------------------------------
-        function loadIssuesData() {
-            const stored = localStorage.getItem('comixhub_views_clean_v2');
+        function loadSeriesData() {
+            const stored = localStorage.getItem('comixhub_series_named_v1');
             if (stored) {
                 try {
                     const parsed = JSON.parse(stored);
-                    issuesData = parsed.length === 3 ? parsed : JSON.parse(JSON.stringify(INITIAL_ISSUES));
+                    issuesData = parsed.length === 3 ? parsed : JSON.parse(JSON.stringify(INITIAL_SERIES));
                 } catch (e) {
-                    issuesData = JSON.parse(JSON.stringify(INITIAL_ISSUES));
+                    issuesData = JSON.parse(JSON.stringify(INITIAL_SERIES));
                 }
             } else {
-                issuesData = JSON.parse(JSON.stringify(INITIAL_ISSUES));
+                issuesData = JSON.parse(JSON.stringify(INITIAL_SERIES));
                 saveToLocalStorage();
             }
         }
 
         function saveToLocalStorage() {
-            localStorage.setItem('comixhub_views_clean_v2', JSON.stringify(issuesData));
+            localStorage.setItem('comixhub_series_named_v1', JSON.stringify(issuesData));
         }
 
         // -------------------------------------------------------------
@@ -515,56 +514,56 @@
             if (currentSort === 'views') {
                 sortedList.sort((a, b) => b.views - a.views);
             } else {
-                sortedList.sort((a, b) => a.issueNumber - b.issueNumber);
+                sortedList.sort((a, b) => a.seriesNumber - b.seriesNumber);
             }
 
-            sortedList.forEach(issue => {
+            sortedList.forEach(series => {
                 const cardWrapper = document.createElement('div');
                 cardWrapper.className = "card-3d-wrapper animate-fade-in";
 
                 cardWrapper.innerHTML = `
                     <div class="card-3d-inner holo-border bg-[#0b0f19]/90 backdrop-blur-md border border-slate-800/90 hover:border-cyan-500/70 rounded-3xl p-6 flex flex-col justify-between h-full shadow-2xl relative overflow-hidden group">
                         
-                        <div class="space-y-4" onclick="openDetailModal('${issue.id}')">
+                        <div class="space-y-4" onclick="openDetailModal('${series.id}')">
                             <!-- Typographic 3D Banner Badge -->
-                            <div class="bg-gradient-to-br ${issue.gradient} border border-slate-800/90 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between h-48 card-3d-layer cursor-pointer">
+                            <div class="bg-gradient-to-br ${series.gradient} border border-slate-800/90 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between h-48 card-3d-layer cursor-pointer">
                                 
                                 <div class="absolute -right-6 -bottom-6 text-slate-800/20 text-8xl font-black select-none pointer-events-none card-3d-layer">
-                                    #0${issue.issueNumber}
+                                    #0${series.seriesNumber}
                                 </div>
                                 
                                 <div class="flex items-center justify-between z-10 card-3d-layer">
                                     <span class="px-2.5 py-1 bg-indigo-950/90 border border-indigo-800/80 text-cyan-400 text-[10px] font-black uppercase tracking-wider rounded-md">
-                                        ISSUE #${issue.issueNumber}
+                                        SERIES #${series.seriesNumber}
                                     </span>
                                     <span class="bg-black/80 border border-slate-800 text-amber-400 text-xs font-mono px-3 py-1 rounded-xl font-bold flex items-center shadow">
-                                        <i class="fa-solid fa-eye mr-1.5 text-amber-500"></i><span id="view-count-${issue.id}">${issue.views}</span>
+                                        <i class="fa-solid fa-eye mr-1.5 text-amber-500"></i><span id="view-count-${series.id}">${series.views}</span>
                                     </span>
                                 </div>
 
                                 <div class="z-10 flex items-end justify-between card-3d-layer-deep">
                                     <div>
-                                        <h4 class="text-2xl font-black text-white group-hover:text-cyan-400 transition tracking-wide uppercase">${issue.title}</h4>
-                                        <p class="text-xs text-slate-400 font-medium">By ${issue.author}</p>
+                                        <h4 class="text-xl font-black text-white group-hover:text-cyan-400 transition tracking-wide uppercase leading-snug">${series.title}</h4>
+                                        <p class="text-xs text-slate-400 font-medium">By ${series.author}</p>
                                     </div>
-                                    <i class="fa-solid ${issue.icon || 'fa-bolt'} text-3xl text-cyan-400/80 group-hover:scale-125 group-hover:text-cyan-300 transition duration-300"></i>
+                                    <i class="fa-solid ${series.icon || 'fa-bolt'} text-3xl text-cyan-400/80 group-hover:scale-125 group-hover:text-cyan-300 transition duration-300"></i>
                                 </div>
                             </div>
 
                             <!-- Description -->
                             <div class="space-y-2 card-3d-layer cursor-pointer">
                                 <div class="flex items-center space-x-2 text-[11px] font-bold text-slate-400">
-                                    <span class="bg-slate-900/90 border border-slate-800 px-2.5 py-1 rounded-md text-slate-300">${issue.genre}</span>
+                                    <span class="bg-slate-900/90 border border-slate-800 px-2.5 py-1 rounded-md text-slate-300">${series.genre}</span>
                                     <span class="text-slate-500 hover:text-cyan-400 transition">View Synopsis <i class="fa-solid fa-angle-right text-[10px]"></i></span>
                                 </div>
-                                <p class="text-xs text-slate-400 leading-relaxed line-clamp-2">${issue.description}</p>
+                                <p class="text-xs text-slate-400 leading-relaxed line-clamp-2">${series.description}</p>
                             </div>
                         </div>
 
-                        <!-- Read Issue Action -->
+                        <!-- Read Series Action -->
                         <div class="pt-6 card-3d-layer">
-                            <button onclick="readComic('${issue.id}')" class="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-black text-xs py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg shadow-indigo-950/50 active:scale-95 uppercase tracking-wider">
-                                <span>Read Issue #${issue.issueNumber}</span>
+                            <button onclick="readComic('${series.id}')" class="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-black text-xs py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg shadow-indigo-950/50 active:scale-95 uppercase tracking-wider">
+                                <span>Read Series</span>
                                 <i class="fa-solid fa-book-open text-[11px]"></i>
                             </button>
                         </div>
@@ -576,7 +575,7 @@
             });
         }
 
-        // 3D Perspective Mouse Motion
+        // 3D Tilt Effect
         function attach3DTiltEffect(wrapper) {
             const card = wrapper.querySelector('.card-3d-inner');
             
@@ -600,36 +599,38 @@
         }
 
         // -------------------------------------------------------------
-        // READ ACTION & VIEW COUNTER INCREMENT
+        // READ ACTION & VIEW COUNTER (FILTERED FOR THE APEX ONLY)
         // -------------------------------------------------------------
-        function readComic(issueId) {
-            const issue = issuesData.find(i => i.id === issueId);
-            if (!issue) return;
+        function readComic(seriesId) {
+            const series = issuesData.find(i => i.id === seriesId);
+            if (!series) return;
 
-            // Increment view count dynamically in-memory and persist
-            issue.views += 1;
-            saveToLocalStorage();
+            // Only increment views if title is exactly "The Apex"
+            if (series.title === ALLOWED_VIEW_TITLE) {
+                series.views += 1;
+                saveToLocalStorage();
 
-            // Direct live DOM update without requiring a full re-render
-            const countEl = document.getElementById(`view-count-${issue.id}`);
-            if (countEl) {
-                countEl.textContent = issue.views;
-                countEl.classList.remove('pop-update');
-                void countEl.offsetWidth; // Force CSS reflow
-                countEl.classList.add('pop-update');
+                const countEl = document.getElementById(`view-count-${series.id}`);
+                if (countEl) {
+                    countEl.textContent = series.views;
+                    countEl.classList.remove('pop-update');
+                    void countEl.offsetWidth;
+                    countEl.classList.add('pop-update');
+                }
+
+                updateTotalHeroViews();
+                showToast(`Opening ${series.title}! Views updated to ${series.views}.`);
+
+                if (currentSort === 'views') {
+                    renderCatalog();
+                }
+            } else {
+                // Views stay unchanged for Poison Girl and Ritugn
+                showToast(`Opening ${series.title}!`);
             }
 
-            updateTotalHeroViews();
-            showToast(`Opening ${issue.title}! Views updated to ${issue.views}.`);
-
-            // If "Most Viewed" sorting mode is currently enabled, re-render catalog so cards reorder dynamically
-            if (currentSort === 'views') {
-                renderCatalog();
-            }
-
-            // Silent Redirection Target
             setTimeout(() => {
-                window.open(issue.link, '_blank');
+                window.open(series.link, '_blank');
             }, 300);
         }
 
@@ -644,24 +645,24 @@
         // -------------------------------------------------------------
         // DETAIL MODAL LOGIC
         // -------------------------------------------------------------
-        function openDetailModal(issueId) {
-            const issue = issuesData.find(i => i.id === issueId);
-            if (!issue) return;
+        function openDetailModal(seriesId) {
+            const series = issuesData.find(i => i.id === seriesId);
+            if (!series) return;
 
-            document.getElementById('modal-badge').textContent = `ISSUE #${issue.issueNumber}`;
-            document.getElementById('modal-title').textContent = issue.title;
-            document.getElementById('modal-author').textContent = `By ${issue.author}`;
-            document.getElementById('modal-views').innerHTML = `<i class="fa-solid fa-eye mr-1"></i>${issue.views}`;
-            document.getElementById('modal-genre').textContent = issue.genre;
-            document.getElementById('modal-description').textContent = issue.description;
+            document.getElementById('modal-badge').textContent = `SERIES #${series.seriesNumber}`;
+            document.getElementById('modal-title').textContent = series.title;
+            document.getElementById('modal-author').textContent = `By ${series.author}`;
+            document.getElementById('modal-views').innerHTML = `<i class="fa-solid fa-eye mr-1"></i>${series.views}`;
+            document.getElementById('modal-genre').textContent = series.genre;
+            document.getElementById('modal-description').textContent = series.description;
 
             const modalIcon = document.getElementById('modal-icon');
-            modalIcon.className = `fa-solid ${issue.icon || 'fa-mask'}`;
+            modalIcon.className = `fa-solid ${series.icon || 'fa-mask'}`;
 
             const readBtn = document.getElementById('modal-read-btn');
             readBtn.onclick = () => {
                 closeDetailModal();
-                readComic(issue.id);
+                readComic(series.id);
             };
 
             const modal = document.getElementById('detail-modal');
@@ -689,7 +690,7 @@
             const toast = document.createElement('div');
             toast.className = "pointer-events-auto bg-slate-900/95 border border-cyan-500 text-white px-4 py-3 rounded-2xl shadow-2xl text-xs font-semibold flex items-center space-x-2 animate-fade-in backdrop-blur-md";
             toast.innerHTML = `
-                <i class="fa-solid fa-circle-check text-cyan-400 text-sm"><span>${message}</span></i>
+                <i class="fa-solid fa-circle-check text-cyan-400 text-sm"></i><span>${message}</span>
             `;
             container.appendChild(toast);
 
