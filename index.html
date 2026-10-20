@@ -300,9 +300,6 @@
 
     <!-- JAVASCRIPT APP LOGIC -->
     <script>
-        // STRICT RULE: Only "The Apex" increments views. Views for Poison Girl and Ritugn remain paused.
-        const ALLOWED_VIEW_TITLE = "The Apex";
-
         const INITIAL_SERIES = [
             {
                 id: 'series-apex',
@@ -325,7 +322,7 @@
                 genre: 'Dark Thriller / Sci-Fi',
                 link: 'https://globalcomix.com/c/poison-girl-her-touch-is-lethal-',
                 description: 'Cursed with a biologically fatal touch, a renegade heroine navigates betrayal, high-stakes corporate underworlds, and relentless bounty squads.',
-                views: 0,
+                views: 189,
                 icon: 'fa-skull-crossbones',
                 gradient: 'from-pink-950 via-slate-900 to-purple-950',
                 glowColor: '#ec4899'
@@ -338,7 +335,7 @@
                 genre: 'Cosmic / Space Fantasy',
                 link: 'https://globalcomix.com/c/ritugn-the-cosmic-light',
                 description: 'An expansive cosmic journey unlocking the celestial power of cosmic light amidst intergalactic warfare and forgotten ancient forces.',
-                views: 0,
+                views: 188,
                 icon: 'fa-sun',
                 gradient: 'from-cyan-950 via-slate-900 to-indigo-950',
                 glowColor: '#00f3ff'
@@ -463,10 +460,10 @@
         }
 
         // -------------------------------------------------------------
-        // LOCALSTORAGE PERSISTENCE (key: comixhub_series_named_v1)
+        // LOCALSTORAGE PERSISTENCE (key: comixhub_series_named_v2)
         // -------------------------------------------------------------
         function loadSeriesData() {
-            const stored = localStorage.getItem('comixhub_series_named_v1');
+            const stored = localStorage.getItem('comixhub_series_named_v2');
             if (stored) {
                 try {
                     const parsed = JSON.parse(stored);
@@ -481,7 +478,7 @@
         }
 
         function saveToLocalStorage() {
-            localStorage.setItem('comixhub_series_named_v1', JSON.stringify(issuesData));
+            localStorage.setItem('comixhub_series_named_v2', JSON.stringify(issuesData));
         }
 
         // -------------------------------------------------------------
@@ -599,34 +596,28 @@
         }
 
         // -------------------------------------------------------------
-        // READ ACTION & VIEW COUNTER (FILTERED FOR THE APEX ONLY)
+        // READ ACTION & VIEW COUNTER (APPLIES TO ALL SERIES NOW)
         // -------------------------------------------------------------
         function readComic(seriesId) {
             const series = issuesData.find(i => i.id === seriesId);
             if (!series) return;
 
-            // Only increment views if title is exactly "The Apex"
-            if (series.title === ALLOWED_VIEW_TITLE) {
-                series.views += 1;
-                saveToLocalStorage();
+            series.views += 1;
+            saveToLocalStorage();
 
-                const countEl = document.getElementById(`view-count-${series.id}`);
-                if (countEl) {
-                    countEl.textContent = series.views;
-                    countEl.classList.remove('pop-update');
-                    void countEl.offsetWidth;
-                    countEl.classList.add('pop-update');
-                }
+            const countEl = document.getElementById(`view-count-${series.id}`);
+            if (countEl) {
+                countEl.textContent = series.views;
+                countEl.classList.remove('pop-update');
+                void countEl.offsetWidth;
+                countEl.classList.add('pop-update');
+            }
 
-                updateTotalHeroViews();
-                showToast(`Opening ${series.title}! Views updated to ${series.views}.`);
+            updateTotalHeroViews();
+            showToast(`Opening ${series.title}! Views updated to ${series.views}.`);
 
-                if (currentSort === 'views') {
-                    renderCatalog();
-                }
-            } else {
-                // Views stay unchanged for Poison Girl and Ritugn
-                showToast(`Opening ${series.title}!`);
+            if (currentSort === 'views') {
+                renderCatalog();
             }
 
             setTimeout(() => {
