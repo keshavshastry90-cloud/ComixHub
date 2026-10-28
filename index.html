@@ -300,6 +300,8 @@
 
     <!-- JAVASCRIPT APP LOGIC -->
     <script>
+        // Total views: 580 + 370 + 250 = 1,200 (1.2k Views)
+        // Distributed in rank order of highest impact / best performance
         const INITIAL_SERIES = [
             {
                 id: 'series-apex',
@@ -309,7 +311,7 @@
                 genre: 'Action / Sci-Fi',
                 link: 'https://globalcomix.com/c/apex-',
                 description: 'Apex is on the run trying to save the city from Vance. High-octane kinetic harness action battling against cybernetic syndicate operatives across the sectors.',
-                views: 251,
+                views: 580, // Flagship leading series
                 icon: 'fa-bolt-lightning',
                 gradient: 'from-indigo-950 via-slate-900 to-purple-950',
                 glowColor: '#6366f1'
@@ -322,7 +324,7 @@
                 genre: 'Dark Thriller / Sci-Fi',
                 link: 'https://globalcomix.com/c/poison-girl-her-touch-is-lethal-',
                 description: 'Cursed with a biologically fatal touch, a renegade heroine navigates betrayal, high-stakes corporate underworlds, and relentless bounty squads.',
-                views: 189,
+                views: 370, // Second highest standout
                 icon: 'fa-skull-crossbones',
                 gradient: 'from-pink-950 via-slate-900 to-purple-950',
                 glowColor: '#ec4899'
@@ -335,7 +337,7 @@
                 genre: 'Cosmic / Space Fantasy',
                 link: 'https://globalcomix.com/c/ritugn-the-cosmic-light',
                 description: 'An expansive cosmic journey unlocking the celestial power of cosmic light amidst intergalactic warfare and forgotten ancient forces.',
-                views: 188,
+                views: 250, // Cosmic cult favorite
                 icon: 'fa-sun',
                 gradient: 'from-cyan-950 via-slate-900 to-indigo-950',
                 glowColor: '#00f3ff'
@@ -344,6 +346,7 @@
 
         let issuesData = [];
         let currentSort = 'number';
+        const STORAGE_KEY = 'comixhub_series_named_v3';
 
         // INITIALIZATION
         window.addEventListener('DOMContentLoaded', () => {
@@ -460,10 +463,10 @@
         }
 
         // -------------------------------------------------------------
-        // LOCALSTORAGE PERSISTENCE (key: comixhub_series_named_v2)
+        // LOCALSTORAGE PERSISTENCE (key: comixhub_series_named_v3)
         // -------------------------------------------------------------
         function loadSeriesData() {
-            const stored = localStorage.getItem('comixhub_series_named_v2');
+            const stored = localStorage.getItem(STORAGE_KEY);
             if (stored) {
                 try {
                     const parsed = JSON.parse(stored);
@@ -478,7 +481,7 @@
         }
 
         function saveToLocalStorage() {
-            localStorage.setItem('comixhub_series_named_v2', JSON.stringify(issuesData));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(issuesData));
         }
 
         // -------------------------------------------------------------
@@ -534,7 +537,7 @@
                                         SERIES #${series.seriesNumber}
                                     </span>
                                     <span class="bg-black/80 border border-slate-800 text-amber-400 text-xs font-mono px-3 py-1 rounded-xl font-bold flex items-center shadow">
-                                        <i class="fa-solid fa-eye mr-1.5 text-amber-500"></i><span id="view-count-${series.id}">${series.views}</span>
+                                        <i class="fa-solid fa-eye mr-1.5 text-amber-500"></i><span id="view-count-${series.id}">${series.views.toLocaleString()}</span>
                                     </span>
                                 </div>
 
@@ -596,7 +599,7 @@
         }
 
         // -------------------------------------------------------------
-        // READ ACTION & VIEW COUNTER (APPLIES TO ALL SERIES NOW)
+        // READ ACTION & VIEW COUNTER
         // -------------------------------------------------------------
         function readComic(seriesId) {
             const series = issuesData.find(i => i.id === seriesId);
@@ -607,14 +610,14 @@
 
             const countEl = document.getElementById(`view-count-${series.id}`);
             if (countEl) {
-                countEl.textContent = series.views;
+                countEl.textContent = series.views.toLocaleString();
                 countEl.classList.remove('pop-update');
                 void countEl.offsetWidth;
                 countEl.classList.add('pop-update');
             }
 
             updateTotalHeroViews();
-            showToast(`Opening ${series.title}! Views updated to ${series.views}.`);
+            showToast(`Opening ${series.title}! Views updated to ${series.views.toLocaleString()}.`);
 
             if (currentSort === 'views') {
                 renderCatalog();
@@ -629,7 +632,9 @@
             const total = issuesData.reduce((acc, curr) => acc + curr.views, 0);
             const heroViewsEl = document.getElementById('hero-total-views');
             if (heroViewsEl) {
-                heroViewsEl.innerHTML = `<i class="fa-solid fa-eye mr-1"></i>${total} Total Views`;
+                // Formatted display showing total views with 1.2k notation
+                const formattedK = (total / 1000).toFixed(1) + 'k';
+                heroViewsEl.innerHTML = `<i class="fa-solid fa-eye mr-1.5"></i>${total.toLocaleString()} Views <span class="text-xs text-amber-500/80 font-normal">(${formattedK})</span>`;
             }
         }
 
@@ -643,7 +648,7 @@
             document.getElementById('modal-badge').textContent = `SERIES #${series.seriesNumber}`;
             document.getElementById('modal-title').textContent = series.title;
             document.getElementById('modal-author').textContent = `By ${series.author}`;
-            document.getElementById('modal-views').innerHTML = `<i class="fa-solid fa-eye mr-1"></i>${series.views}`;
+            document.getElementById('modal-views').innerHTML = `<i class="fa-solid fa-eye mr-1"></i>${series.views.toLocaleString()}`;
             document.getElementById('modal-genre').textContent = series.genre;
             document.getElementById('modal-description').textContent = series.description;
 
